@@ -17,13 +17,15 @@ export class LoginComponent {
   constructor(private authService: ServiceService) {}
 
   onSubmit() {
-    if (this.authService.login(this.username, this.password)) {
-      this.loginMessage = 'Login Successful!';
-      this.username = '';
-      this.password = '';
-    }
-    else {
-      this.loginMessage = 'Invalid username or password.';
-    }
+    this.authService.login(this.username, this.password).subscribe(
+      response => {
+        this.loginMessage = "Login Successful!";
+        console.log('Login successful:', response);
+      },
+      error => {
+        this.loginMessage = "Username or Password invalid...";
+        console.error('Login failed:', error);
+      }
+    );
   }
 }
